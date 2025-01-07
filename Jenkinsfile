@@ -31,7 +31,11 @@ pipeline {
         '''
       }
     }
-
+    post {
+      always {
+        junit 'test-results/junit.xml'
+      }
+    }
     stage('Deploy') {
       steps {
         sh '''
@@ -41,11 +45,6 @@ pipeline {
           node_modules/.bin/netlify status
         '''
       }
-    }
-  }
-  post {
-    always {
-      junit 'test-results/junit.xml'
     }
   }
 }

@@ -30,7 +30,16 @@ pipeline {
           npm test
         '''
       }
+      post {
+        always {
+          script {
+            // Publish JUnit results
+            junit 'test-results/junit.xml'
+          }
+        }
+      }
     }
+
     stage('Deploy') {
       steps {
         sh '''
@@ -40,16 +49,6 @@ pipeline {
           node_modules/.bin/netlify status
         '''
       }
-    }
-  }
-  
-  post {
-    always {
-      // Publish JUnit test results
-      junit '**/test-results/*.xml'
-
-      // Archive any additional artifacts, if needed
-      archiveArtifacts artifacts: '**/test-results/*.xml', allowEmptyArchive: true
     }
   }
 }

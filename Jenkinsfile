@@ -27,15 +27,15 @@ pipeline {
         '''
       }
     }
-  }
 
-  stage('Deploy') {
-    steps {
-      sh '''
-        echo "Deploying"
-        npm install netlify-cli
-        node_modules/.bin/netlify --version
-      '''
+    stage('Deploy') {
+      steps {
+        sh '''
+          echo "Deploying"
+          npm install netlify-cli
+          node_modules/.bin/netlify --version
+        '''
+      }
     }
   }
   post {

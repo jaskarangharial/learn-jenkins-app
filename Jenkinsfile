@@ -5,6 +5,10 @@ pipeline {
       reuseNode true
     }
   }
+  environment {
+    NETLIFY_SITE_ID = credentials('netlify-side-id')
+    NETLIFY_AUTH_TOKEN = credentials('netlify-token')
+  }
   stages {
     stage('Build') {
       steps {
@@ -31,9 +35,10 @@ pipeline {
     stage('Deploy') {
       steps {
         sh '''
-          echo "Deploying"
           npm install netlify-cli
           node_modules/.bin/netlify --version
+          echo "Deploying to Production Site: ${NETLIFY_SITE_ID}"
+          node_modules/.bin/netlify status
         '''
       }
     }
